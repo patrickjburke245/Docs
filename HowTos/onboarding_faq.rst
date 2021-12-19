@@ -27,25 +27,25 @@ What is an Aviatrix access account on the Controller?
 
 An Aviatrix access account (or account for short) represents the following information:
 
-  - The cloud provider account (for example, AWS) credential that the Controller uses to launch Aviatrix gateway in that cloud account.
+  - The cloud provider account (for example, AWS) credential that the Controller uses to launch an Aviatrix gateway in that cloud account.
 
-What is Controller ID?
+What is a Controller ID?
 -------------------------
 
-Controller ID is a 32 digits Universal Unique Identifier (UUID). This ID is unique per customer and used for tracking purposes.
+A Controller ID is a 32-digit Universal Unique Identifier (UUID). This ID is unique per customer and used for tracking purposes.
 
-This 32 digits UUID can be seen under Settings -> Controller -> License.
+This 32-digit UUID can be seen under Settings -> Controller -> License.
 
 What are different types of licenses available?
 --------------------------------------------------
 
 There are three different types of licenses option available in Aviatrix Controller.
 
-    1. Bring Your Own License (BYOL) License - This license supports public cloud AWS, Azure, GCP and OCI. Please open a support ticket at `Aviatrix Support Portal <https://support.aviatrix.com>`_ to get BYOL license.
-    #. Metered or Platinum Metered License - This is only applicable to AWS public cloud
-    #. Utility - The utility AMI is available in AWS and Azure both and supports maximum 100 tunnels and limited number of VPN users.
+    1. Bring Your Own License (BYOL) License - This license supports public cloud AWS, Azure, GCP, and OCI. Please open a support ticket at `Aviatrix Support Portal <https://support.aviatrix.com>`_ to get a BYOL license.
+    #. Metered or Platinum Metered License - This is only applicable to AWS public cloud.
+    #. Utility - The utility AMI is available in both AWS and Azure. It supports up to 100 tunnels and a limited number of VPN users.
 
-To check license type, Go to Controller's console -> Settings -> Controller -> License
+To check license type, Go to Controller's console -> Settings -> Controller -> License.
 
 
 Why do I need an AWS account credential?
@@ -55,24 +55,24 @@ To build connectivity between two VPCs, the Aviatrix Controller launches Aviatri
 in the respective VPCs, instructs the gateways to build an IPSEC tunnel and modifies AWS route tables
 in each VPC.
 
-To accomplish this task, the Controller needs your AWS credentials to issue AWS APIs, for example,
+To accomplish this task, the Controller needs your AWS credentials to call AWS APIs, for example,
 to launch the gateway instances and modify route tables, on your behalf. An AWS credential consists of
 
- - `The 12 digit AWS account number <https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html>`_
+ - `The 12-digit AWS account number <https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html>`_
  - `IAM roles and IAM policies <http://docs.aviatrix.com/HowTos/HowTo_IAM_role.html>`_
 
 If you need to connect two VPCs that are owned by one AWS account, you just need one AWS credential, i.e, one Aviatrix access account.
 
 If you need to connect two VPCs that are owned by two different AWS accounts, you then need two AWS credentials, and therefore two access accounts.
 
-The access account is also used to access the Controller web console, therefore it is associated with an email address and login password in case you want to login to only manage that one account.
+The access account is also used to access the Controller web console. Therefore, it is associated with an email address and login password, in case you want to login to only manage that one account.
 
 What is the Aviatrix Primary Access Account?
 ---------------------------------------------
 
 There is only one primary access account on the Controller. The primary access account's AWS account credential is the one that the Controller is launched on and it is already setup during the Controller instance launch time with a CloudFormation template.   
 
-To setup the primary access account during onboarding time, you just need to enter the 12 digit AWS account that Controller is launched on. 
+To setup the primary access account during onboarding, you just need to enter the 12-digit AWS account that Controller is launched on. 
 
 (For release 3.1 and earlier you also need to enter the Controller access credentials (email, password)).
 
@@ -100,19 +100,19 @@ How do we apply Azure role-based access control to an Aviatrix Azure account?
 --------------------------------------------------------------------------------
 
 Aviatrix Controller is viewed as an application running on Azure. Since this application needs to create or 
-program Azure resources, such as launching a gateway, modifying route entries in a route table, etc, 
+program Azure resources, such as launching a gateway, modifying route entries in a route table, etc., 
 the application requires a role with certain permissions. By default, this role is a pre-defined Azure built-in
 role called "contributor". 
 
 If you wish not to use the contributor role and instead creating a custom 
-role with Aviatrix provided permission, you can do so via Azure portal or with via PowerShell. 
-Below is guide on how to accomplish that via PowerShell. 
+role with Aviatrix provided permission, you can do so via Azure portal or PowerShell. 
+Below are the steps for PowerShell. 
 
-**Note:** For security purposes, Aviatrix recommends you use a custom role rather than the default role Aviatrix created. When you use a custom role name it is important to make sure the AssumeRole policy and Trust policy are correct. The AssumeRole policy is attached to the EC2 role and the Trust policy is accessed on the APP role Trust Relationship tab.
+**Note:** For security purposes, Aviatrix recommends using a custom role rather than the default role Aviatrix created. When using a custom role name, it is important to make sure the AssumeRole policy and Trust policy are correct. The AssumeRole policy is attached to the EC2 role and the Trust policy is accessed on the APP role Trust Relationship tab.
 
 For replacing the Contributor role via Azure portal, refer to `Azure IAM Custom Role <https://docs.aviatrix.com/HowTos/azure_custom_role.html>`_. 
 
-Step 1. Add an custom role through Powershell
+Step 1. Add a custom role
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The custom role must have permission that meets the requirement for Aviatrix Controller to function. 
@@ -156,7 +156,7 @@ Remember to replace the subscription "11111111-1111-1111-1111-111111111111" with
  
 In Powershell, perform the following:
  
-1. Edit avx_rbac_role.json, copy and paste above Aviatrix RBAC role. Save the file
+1. Edit avx_rbac_role.json, copy and paste above Aviatrix RBAC role. Save the file.
 
 2. New-AzRoleDefinition -InputFile avx_rbac_role.json
  
@@ -164,9 +164,9 @@ In Powershell, perform the following:
 Step 2. Add a role assignment in the Azure portal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-In Azure portal->Subscriptions->Access Control(IAM)->Add->Add role assignment. 
+In Azure portal -> Subscriptions -> Access Control(IAM) -> Add -> Add role assignment. 
 
-At Role assignment, fill the fields as follows.
+At Role assignment, configure the following:
 
 ========================       =======================
 Role                           Aviatrix Controller Custom Role (this is the role created from above)
@@ -177,28 +177,27 @@ Select                         My-new-controller (this is the registered applica
 Once the above step is complete, you have assigned the My-new-controller (as a service principal) the custom role 
 called "Aviatrix Controller Custom Role".  
 
-For more information on how to PowerShell to create custom role on Azure, refer to `this link. <https://docs.microsoft.com/en-us/azure/role-based-access-control/custom-roles-powershell>`_. 
+For more information on how to PowerShell to create custom role on Azure, refer to `this link <https://docs.microsoft.com/en-us/azure/role-based-access-control/custom-roles-powershell>`_. 
 
 
-How to setup OCI account credentials?
+How do I set up OCI account credentials?
 ---------------------------------------
 
-Follow the instructions on `Oracle Cloud Infrastructure Documentation. <https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm>`_. 
+Follow the instructions on `Oracle Cloud Infrastructure Documentation <https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm>`_. 
 
 
-How do I upgrade software?
+How do I upgrade my controller to the latest version?
 ---------------------------
 
-Click Settings -> Upgrade, select latest. This upgrades to the latest release of the
-controller software.
+Click Settings -> Upgrade, select latest.
 
 When a new release becomes available, an alert message appears on the
-Dashboard. An email will also be sent to the admin of the controller.
+Dashboard. An email will also be sent to the controller admin.
 
-Are there reference design examples?
+Are there reference design examples in Azure?
 -------------------------------------
 
-Check out docs.aviatrix.com.
+ - `Azure <https://docs.aviatrix.com/HowTos/nextgentransit_for_azure.html?highlight=architecture>`_
 
 What is the support model?
 ----------------------------
@@ -212,18 +211,14 @@ In my environment, Aviatrix will be within a PCI CDE environment, do you have a 
 
 Aviatrix does not need to be PCI compliant or provide a PCI AOC.
  
-Below is a good article that will help you understand why we are not eligible for PCI compliance:
- 
-https://www.proofport.com/blog/who-needs-aoc-and-why
- 
-From the article:
+According to Proofport:
  
 Companies that sell some types of **equipment or software** used in cardholder data processing, transmission, and storage environments, but have no access to, or do not impact, those environments, are also not required to be PCI compliant and therefore do not have AOCs. A few examples include routers, firewalls, application servers, database servers, telecommunications equipment, server operating systems, **application firewalls**, etc
 
-What is Certificate Domain?
+What is a Certificate Domain?
 --------------------------------
 
-Entering Certificate Domain is required for Aviatrix China Solution. The domain is the one that you registered in China and applied for ICP license. For more information, see What is a China ICP License.
+Entering a Certificate Domain is required for Aviatrix China Solution. The domain is the one that you registered in China and applied for Internet Content Provider (ICP) license. For more information, see What is a China ICP License.
 
 How to setup Account Name Alias?
 --------------------------------
