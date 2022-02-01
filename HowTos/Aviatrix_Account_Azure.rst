@@ -3,51 +3,50 @@
    :keywords: Aviatrix account, Azure, Aviatrix Azure account credential, API credential
 
 ===========================================================
-Azure Account Credential Setup 
+Azure Account Onboarding Guide
 ===========================================================
 
 1. Overview
 =============
 
-Aviatrix Controller uses Azure APIs extensively to launch Aviatrix
-gateways, configure encrypted peering and other features.
+The Aviatrix Controller uses the Azure API extensively to launch Aviatrix
+gateways, configure encrypted peering, and more.
 
-In order to use Azure API, you need to first create an Aviatrix `Access
+In order for the Controller to call the Azure API, you need to first create an Aviatrix `Access
 Account <https://docs.aviatrix.com/HowTos/aviatrix_account.html>`_ on the Aviatrix controller. This access account corresponds
 to a valid Azure subscription with API credentials. You need to create an access account for each subscription. 
 
 This document describes, for a given subscription, how to obtain the necessary information,
-specifically Application ID, Application Key (Client secret), and
-Application Directory ID to create an Aviatrix Access Account so that the Controller can execute APIs on that subscription.
-There are 3 sections, make sure you go through all of them.
+specifically the ARM Subscription ID, Application ID, Application Key (Client secret), and
+Directory ID to create an Aviatrix Access Account so that the Controller can execute APIs on that subscription.
 
 
-2. API and Permission Setup 
+2. Azure UI Steps
 ========================================
 
-Setting up Azure permission for Aviatrix involves three main steps.
+There are 3 main steps to configuring Azure to allow Aviatrix to make API calls:
 
-1. Register Aviatrix Controller Application with Azure Active Directory
+1. Register an Aviatrix Controller Application with Azure Active Directory.
 
-2. Assign a role to the Aviatrix Controller Application 
+2. Assign a role to that application.
 
-3. Get Application ID, Application Key (Client secret) and Directory ID
+3. Retrieve the Application ID, Application Key (Client secret), and Directory ID.
 
 **Important:** Complete the following steps in order.
 
 2.1 – Register Aviatrix Controller Application
 -------------------------------------------------------
 
-Login to the Azure Portal:  https://portal.azure.com
+Login to the `Azure Portal <https://portal.azure.com>`.
 
 
 1. From the Azure portal click on "All services" and search for “Azure Active Directory” and click on “Azure Active Directory”.
 
-2. Click “App registrations".  Do not choose "App registrations (Legacy)"
+2. Click “App registrations".  Do not choose "App registrations (Legacy)".
 
 |image03|
 
-3. Click “+ New registration”
+3. Click “+ New registration”.
 
 |image04|
 
@@ -63,31 +62,27 @@ Login to the Azure Portal:  https://portal.azure.com
 ------------------------------------------------------------
 
 
-1. Login to the Azure portal
-
-2. On the top left, click All services, search for “Subscriptions”
+1. On the top left, click All services, search for “Subscriptions”.
 
   |image11|
 
-3. Copy the Subscription ID (to notepad or a convenient location)
+2. Copy the Subscription ID (to notepad or a convenient location).
 
 |image12|
 
-4. Click on the Subscription ID
+3. Click on the Subscription name.
 
-5. Then select “Access control (IAM)”.
+4. Then select “Access control (IAM)”.
 
 |image13|
 
 
-6. Click Add and then select the “Contributor” role. If the "Contributor" role is too broad, you can later replace it with a custom role with specific permissions. Refer to `Use Azure IAM Custom Role <https://docs.aviatrix.com/HowTos/azure_custom_role.html>`_ for instructions. 
+5. Click Add and then select the “Contributor” role. If the "Contributor" role is too broad, you can later replace it with a custom role with specific permissions. Refer to `Use Azure IAM Custom Role <https://docs.aviatrix.com/HowTos/azure_custom_role.html>`_ for instructions. 
 
 
-7. In the Select search field, type in “Aviatrix”. The Aviatrix Controller
-   (that you created in section 2.1) app should show up. Select this one and click Select towards to the
-   bottom.
+6. In the Select search field, type in “Aviatrix”. The Aviatrix Controller app (that you created in section 2.1) should show up. Select this one and click Select at the bottom of the page.
 
-2.3 – Setup Information for Programmatic Sign in
+2.3 – Retrieve Information for Programmatic Access
 ------------------------------------------------------------
 
 1. From the Azure portal, click All services and search for “Azure Active Directory”. Click “App registrations” and then the application to see the Application (client) ID and Directory (tenant) ID.
@@ -95,43 +90,41 @@ Login to the Azure Portal:  https://portal.azure.com
    |image01|
 
 2. Retrieve the **Application (client) ID** and **Directory (tenant) ID**.
-   
-   A. Copy the Application ID and Directory ID for later use.  
 
    |image14|
    
-3. Retrieve the **Client Secrets**.
+3. Retrieve the **Client Secret**.
 
-   A. Click Certificates & secrets
+   A. Click Certificates & secrets.
 
-   B. Click + New client secret
+   B. Click "+ New client secret".
 
    |image06|
 
 
    C. Enter in the following, and then click Add
 
-      * Description = Aviatrix
+      1. Description = Aviatrix
 
-      * Expires = Never
+      2. Expires = Never
       
    |image07|
 
-   E. You should see the new secret as shown below.
+   D. You should see the new secret as shown below.
    
    |image15|
 
-   F. Copy the secret.  This will be used as the Application Key in the Aviatrix Controller.
+   E. Copy the secret.  This will be used as the Application Key in the Aviatrix Controller.
 
-5. Add **API permissions**.
+4. Add **API permissions**.
 
    Go to Azure Active Directory -> select the "Aviatrix Controller" application, click into the application. 
 
-   A. Click API permissions
+   A. Click "API permissions".
 
    |Image08|
 
-   B. Click "+Add a permission"
+   B. Click "+Add a permission".
    
    C. Choose Azure Service Management
    
@@ -139,14 +132,14 @@ Login to the Azure Portal:  https://portal.azure.com
    
    |Image10|
 
-6. Done
+5. Done
 
 At this point you should have the following information to create an access account on Azure.
 
 ==========================================               ======================
 Access Account Setup Input Field                         Value
 ==========================================               ======================
-Subscription ID                                          From section 2.2
+ARM Subscription ID                                      From section 2.2
 Directory ID                                             From section 2.3
 Application ID                                           From section 2.3
 Application Key (Client Secret)                          From section 2.3
@@ -160,7 +153,7 @@ If you need additional information, refer to `How to: Use the portal to create a
 Azure China notes
 ==================
 
-Deploying the Aviatrix Gateway in the Azure China Cloud
+Deploying Aviatrix Gateways in the Azure China Cloud
 -----------------------------------------------------------
 
 Prerequisites:
@@ -168,7 +161,7 @@ Prerequisites:
 - You must already have a Microsoft Azure China account and Aviatrix Controller in AWS China to deploy an Aviatrix Gateway in the Azure China Cloud.
 
 
-1.	Create the Aviatrix Controller in your AWS China Cloud. Go to Onboarding and select Azure China. 
+1.	Go to Onboarding and select Azure China. 
 
 2.	Enter the Aviatrix Customer ID.
 
@@ -176,9 +169,9 @@ Prerequisites:
 
 4.	Create the Primary Access Account.
 
-6. 	Deploy Aviatrix gateway from the Gateway page in the Aviatrix Controller or the Multi-Cloud Transit Solution page.
+5. Deploy an Aviatrix gateway from the Gateway page in the Aviatrix Controller or the Multi-Cloud Transit Solution page.
 
-For more information, see “What is a China ICP License?”
+For more information, see `“What is a China ICP License?” <https://docs.aviatrix.com/HowTos/aviatrix_china_overview.html#what-is-a-china-icp-license>`
 
 .. |image01| image:: AviatrixAccountForAzure_media/az-ad-01.PNG
    :width: 5.20313in
